@@ -4,7 +4,7 @@ import com.pongs.inventory_service.model.entity.Inventory;
 
 public record InventoryResponse (
     Long id,
-    Long productId,
+    String productId,
     Integer quantity
 ) {
     public static InventoryResponse from(Inventory inventory) {
