@@ -9,13 +9,13 @@
             useGeneratedKeys="true"
             keyProperty="id">
 
-        INSERT INTO rooms (
+        INSERT INTO inventory (
             product_id,
             quantity
         )
         VALUES (
             #{productId},
-            #{quantity},
+            #{quantity}
         )
 
     </insert>
@@ -27,8 +27,8 @@
         SELECT
             id,
             product_id AS productId,
-            quantity,
-        FROM products
+            quantity
+        FROM inventory
         WHERE product_id = #{productId}
 
     </select>
