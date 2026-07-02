@@ -1,58 +1,32 @@
-version: '3.9'
-
+version: '3.8'
 services:
-
-  api-gateway:
-    build:
-      context: ./api-gateway
-    container_name: api-gateway
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
     ports:
-      - "8080:8080"
-
-  user-service:
-    build:
-      context: ./user-service
-    container_name: user-service
-    ports:
-      - "8081:8081"
-
-  order-service:
-    build:
-      context: ./order-service
-    container_name: order-service
-    ports:
-      - "8082:8082"
-
-  inventory-service:
-    build:
-      context: ./inventory-service
-    container_name: inventory-service
-    ports:
-      - "8083:8083"
-
-  mysql-user:
-    image: mysql:8
-    container_name: mysql-user
+      - "2181:2181"
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_USER_PASSWORD}
-      MYSQL_DATABASE: user_db
-    ports:
-      - "3307:3306"
+      ZOOKEEPER_CLIENT_PORT: 2181
 
-  mysql-order:
-    image: mysql:8
-    container_name: mysql-order
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ORDER_PASSWORD}
-      MYSQL_DATABASE: order_db
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    depends_on: [zookeeper]
     ports:
-      - "3308:3306"
+      - "9092:9092"
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: true
 
-  mysql-inventory:
-    image: mysql:8
-    container_name: mysql-inventory
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_INVENTORY_PASSWORD}
-      MYSQL_DATABASE: inventory_db
+  mysql:
+    image: mysql:8.0
     ports:
-      - "3309:3306"
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
