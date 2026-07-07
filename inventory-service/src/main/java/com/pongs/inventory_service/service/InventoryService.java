@@ -40,4 +40,20 @@ public class InventoryService {
 
         return true;
     }
+
+    public Inventory addProduct(String productId, Integer quantity) {
+        Inventory inventory = inventoryMapper.findByProductId(productId);
+
+        if (inventory == null) {
+            System.out.println("[Inventory] Product not found: " + productId + ". Creating new inventory record.");
+            inventory = new Inventory();
+            inventory.setProductId(productId);
+            inventory.setQuantity(quantity);
+            inventoryMapper.insert(inventory);
+        }
+
+        return inventoryMapper.findByProductId(productId);
+    }
+
+    
 }
