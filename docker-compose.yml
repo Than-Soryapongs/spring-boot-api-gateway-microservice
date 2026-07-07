@@ -25,6 +25,8 @@ services:
       context: ./user-service
     container_name: user-service
     restart: unless-stopped
+    perts:
+      - "8081:8081"
 
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://user-db:3306/user-db?createDatabaseIfNotExist=true
@@ -44,7 +46,7 @@ services:
     container_name: inventory-service
     restart: unless-stopped
     ports:
-      - "8081:8081"
+      - "8082:8082"
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://inventory-db:3306/inventory_db?createDatabaseIfNotExist=true
       SPRING_DATASOURCE_USERNAME: ${MYSQL_USER}
@@ -63,7 +65,7 @@ services:
     container_name: order-service
     restart: unless-stopped
     ports:
-      - "8082:8082"
+      - "8083:8083"
 
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://order-db:3306/order-db?createDatabaseIfNotExist=true
