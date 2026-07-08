@@ -34,7 +34,7 @@
             created_at AS createdAt,
             updated_at AS updatedAt
         FROM user
-        WHERE username = #{username }
+        WHERE username = #{username}
 
     </select>
 </mapper>
