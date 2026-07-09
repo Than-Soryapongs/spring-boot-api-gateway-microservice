@@ -24,7 +24,7 @@
 
     <select id="findByUsername"
             parameterType="string"
-            resultType="com.pongs.user_service.mapper.UserMapper">
+            resultType="com.pongs.user_service.model.entity.User">
 
         SELECT
             id,

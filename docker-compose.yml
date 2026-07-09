@@ -1,35 +1,35 @@
 services:
 
-  api-gateway:
-    build:
-      context: ./api-gateway
-    container_name: api-gateway
-    restart: unless-stopped
+  # api-gateway:
+  #   build:
+  #     context: ./api-gateway
+  #   container_name: api-gateway
+  #   restart: unless-stopped
 
-    ports:
-      - "8080:8080"
+  #   ports:
+  #     - "8080:8080"
 
-    depends_on:
-      user-db:
-        condition: service_healthy
-      inventory-db:
-        condition: service_healthy
-      order-db:
-        condition: service_healthy
+  #   depends_on:
+  #     user-db:
+  #       condition: service_healthy
+  #     inventory-db:
+  #       condition: service_healthy
+  #     order-db:
+  #       condition: service_healthy
 
-    networks:
-      - microservice-network
+  #   networks:
+  #     - microservice-network
 
   user-service:
     build:
       context: ./user-service
     container_name: user-service
     restart: unless-stopped
-    perts:
+    ports:
       - "8081:8081"
 
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://user-db:3306/user-db?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_URL: jdbc:mysql://user-db:3306/user_db?createDatabaseIfNotExist=true
       SPRING_DATASOURCE_USERNAME: ${MYSQL_USER}
       SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD}
 
@@ -59,25 +59,25 @@ services:
     networks:
       - microservice-network
 
-  order-service:
-    build:
-      context: ./order-service
-    container_name: order-service
-    restart: unless-stopped
-    ports:
-      - "8083:8083"
+  # order-service:
+  #   build:
+  #     context: ./order-service
+  #   container_name: order-service
+  #   restart: unless-stopped
+  #   ports:
+  #     - "8083:8083"
 
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://order-db:3306/order-db?createDatabaseIfNotExist=true
-      SPRING_DATASOURCE_USERNAME: ${MYSQL_USER}
-      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD}
+  #   environment:
+  #     SPRING_DATASOURCE_URL: jdbc:mysql://order-db:3306/order-db?createDatabaseIfNotExist=true
+  #     SPRING_DATASOURCE_USERNAME: ${MYSQL_USER}
+  #     SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD}
 
-    depends_on:
-      order-db:
-        condition: service_healthy
+  #   depends_on:
+  #     order-db:
+  #       condition: service_healthy
 
-    networks:
-      - microservice-network
+  #   networks:
+  #     - microservice-network
 
   user-db:
     image: mysql:8.4
@@ -128,34 +128,34 @@ services:
     networks:
       - microservice-network
 
-  order-db:
-    image: mysql:8.4
-    container_name: order-db
-    restart: unless-stopped
-    ports: 
-      - "3306:3306"
+  # order-db:
+  #   image: mysql:8.4
+  #   container_name: order-db
+  #   restart: unless-stopped
+  #   ports: 
+  #     - "3306:3306"
 
-    environment:
-      MYSQL_DATABASE: order_db
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+  #   environment:
+  #     MYSQL_DATABASE: order_db
+  #     MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+  #     MYSQL_USER: ${MYSQL_USER}
+  #     MYSQL_PASSWORD: ${MYSQL_PASSWORD}
 
-    volumes:
-      - order-db-data:/var/lib/mysql
+  #   volumes:
+  #     - order-db-data:/var/lib/mysql
 
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
-      timeout: 5s
-      retries: 10
-    networks:
-      - microservice-network
+  #   healthcheck:
+  #     test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 10
+  #   networks:
+  #     - microservice-network
 
 volumes:
   user-db-data:
   inventory-db-data:
-  order-db-data:
+  # order-db-data:
 
 networks:
   microservice-network:
