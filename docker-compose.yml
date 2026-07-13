@@ -68,7 +68,7 @@ services:
       - "8083:8083"
 
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://order-db:3306/order-db?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_URL: jdbc:mysql://order-db:3306/order_db?createDatabaseIfNotExist=true
       SPRING_DATASOURCE_USERNAME: ${MYSQL_USER}
       SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD}
 
