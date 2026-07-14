@@ -2,6 +2,7 @@ package com.pongs.user_service.service;
 
 import org.springframework.stereotype.Service;
 
+import com.pongs.user_service.exception.UserAlreadyExistsException;
 import com.pongs.user_service.mapper.UserMapper;
 import com.pongs.user_service.model.entity.User;
 
@@ -15,6 +16,10 @@ public class UserService {
 
     public User addUser(String username, String firstname, String lastname) {
         User user = userMapper.findByUsername(username);
+
+        if (user != null) {
+            throw new UserAlreadyExistsException(username);
+        }
 
         if (user == null) {
             System.out.println("[User] User not found: " + username + ". Creating new user record.");

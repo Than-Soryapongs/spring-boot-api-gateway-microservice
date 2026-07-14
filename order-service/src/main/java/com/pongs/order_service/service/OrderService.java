@@ -43,7 +43,7 @@ public class OrderService {
 
         orderMapper.insert(order);
 
-        return order;
+        return orderMapper.findById(order.getId());
     }
 
     public Order getOrder(Long id) {
